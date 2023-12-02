@@ -4,4 +4,4 @@ This is a Kotlin Multiplatform project targeting Android, Server.
 
 * `/shared` is for the code that will be shared between all targets in the project.
 
-* `/composeApp`if for the Android mobile application
+* `/composeApp` if for the Android mobile application
