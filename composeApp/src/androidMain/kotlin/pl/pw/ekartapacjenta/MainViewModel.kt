@@ -1,14 +1,17 @@
 package pl.pw.ekartapacjenta
 
 import DummyData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.media.Image
+import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import model.User
-import java.util.*
+import pl.pw.ekartapacjenta.logic.EncryptedSharedPref
 
-class MainViewModel: ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val sharedPreferences = EncryptedSharedPref(application)
     private var _user: MutableStateFlow<User?> = MutableStateFlow(null)
 
     val user: StateFlow<User?>
@@ -20,5 +23,10 @@ class MainViewModel: ViewModel() {
             _user.update { old -> DummyData.user1 }
         }
         return password == "123"
+    }
+
+    // TODO
+    fun onScanImage(image: Image) {
+
     }
 }

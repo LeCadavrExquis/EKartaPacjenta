@@ -12,7 +12,10 @@ fun App(mainViewModel: MainViewModel = viewModel()) {
     val user by mainViewModel.user.collectAsState()
     MaterialTheme {
         if (user != null) {
-            HomeView(user!!)
+            HomeView(
+                user!!,
+                mainViewModel::onScanImage
+            )
         } else {
             LoginView(mainViewModel::logInUser)
         }
