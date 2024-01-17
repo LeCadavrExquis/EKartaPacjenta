@@ -22,6 +22,6 @@ class EncryptedSharedPref(context: Context) {
     }
 
     fun getJWToken(): String? {
-        return sharedPreferences.getString("my_key", null)
+        return sharedPreferences.getString("token", null)
     }
 }
