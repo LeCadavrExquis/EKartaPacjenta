@@ -20,7 +20,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // TODO
     fun logInUser(login: String, password: String): Boolean {
         if (password == "123") {
-            _user.update { old -> DummyData.user1 }
+            _user.update { old -> DummyData.doctor1 }
         }
         return password == "123"
     }
