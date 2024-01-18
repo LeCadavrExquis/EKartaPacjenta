@@ -20,14 +20,10 @@ fun ChartDisplay(
     xData: List<Float>,
     yData: List<Float>,
 ) {
-    val line1 = (1..100).zip(50..100).map {
-        Entry(it.second.toFloat(), it.first.toFloat())
+    val line1 = xData.zip(yData).map {
+        Entry(it.second, it.first)
     }
-    val line1Label = "1 label"
-    val points = (50..100).zip(10..1000).map {
-        Entry(it.second.toFloat(), it.first.toFloat())
-    }
-    val pointsLabel = "2 label"
+    val line1Label = "pomiar"
 
     AndroidView(
         modifier = modifier
@@ -45,20 +41,13 @@ fun ChartDisplay(
                 DrawOrder.LINE, DrawOrder.SCATTER
             )
 
-            val lineData = LineData(
-                LineDataSet(line1, line1Label).apply {
-                    color = Color.rgb(100, 238, 170)
-                    setDrawCircles(false)
-                },
-            )
             val pointsData = ScatterData(
-                ScatterDataSet(points, pointsLabel).apply {
+                ScatterDataSet(line1, line1Label).apply {
                     color = Color.rgb(200, 4, 0)
                     setScatterShape(ScatterChart.ScatterShape.SQUARE)
                 }
             )
             val data = CombinedData()
-            data.setData(lineData)
             data.setData(pointsData)
 
             chart.data = data
@@ -76,7 +65,7 @@ fun ChartDisplay(
 @Composable
 fun ChartDisplayPreview() {
     ChartDisplay(
-        xData = listOf(1f, 2f, 3f, 4f, 5f),
+        xData = listOf(1f, 2f, 3f, 4f, 9f),
         yData = listOf(1f, 2f, 3f, 4f, 5f),
     )
 }

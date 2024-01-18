@@ -37,7 +37,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         val studyResults = networkManager.getPatientData(id)
 
-        _temperatureResults.update { old -> studyResults }
+        _temperatureResults.update { old -> studyResults.temperatureMeasurements ?: old }
+        // TODO dodać pomiaru morfologii i ekg
 
         _user.update { old -> DummyData.user1 }
 
