@@ -9,7 +9,7 @@ logback = "1.4.13"
 compose = "1.5.4"
 compose-plugin = "1.5.11"
 compose-compiler = "1.5.5"
-agp = "8.2.1"
+agp = "8.2.0-beta05"
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
@@ -22,6 +22,7 @@ androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
 kotlin = "1.9.21"
 junit = "4.13.2"
+mp-android-chart = "v3.1.0"
 securityCrypto = "1.0.0"
 
 [libraries]
@@ -54,6 +55,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+mp-android-chart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mp-android-chart" }
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

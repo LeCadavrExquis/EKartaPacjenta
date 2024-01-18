@@ -30,6 +30,7 @@ kotlin {
             implementation(libs.androidx.camera.extensions)
             implementation(libs.androidx.security.crypto)
             implementation(libs.accompanist.permissions)
+            implementation(libs.mp.android.chart)
         }
         commonMain.dependencies {
             implementation(projects.shared)
