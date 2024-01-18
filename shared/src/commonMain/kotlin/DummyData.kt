@@ -34,43 +34,43 @@ object DummyData {
         // TODO dodać poprawne czasy
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 130656789,
             measuredValue = 36.8,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 134256789,
             measuredValue = 39.2,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 137856789,
             measuredValue = 39.5,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 141456789,
             measuredValue = 39.8,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 145056789,
             measuredValue = 39.7,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 148656789,
             measuredValue = 37.5,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
-            dateMs = 123456789,
+            dateMs = 152256789,
             measuredValue = 36.7,
             userId = user1.id
         ),

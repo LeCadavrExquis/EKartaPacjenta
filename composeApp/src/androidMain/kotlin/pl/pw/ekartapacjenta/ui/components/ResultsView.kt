@@ -19,14 +19,25 @@ import java.util.Date
 fun ResultsView(
     temperatureResults: List<TemperatureMeasurement>
 ) {
-    val calenedar = Calendar.getInstance()
+    val calendar = Calendar.getInstance()
     val temperatureTimeData = temperatureResults.map { result ->
-        calenedar.time = Date(result.dateMs)
-        calenedar.get(Calendar.HOUR_OF_DAY).toFloat()
+        calendar.time = Date(result.dateMs)
+        calendar.get(Calendar.HOUR_OF_DAY).toFloat()
     }
     val temperatureValueData = temperatureResults.map { result ->
         result.measuredValue.toFloat()
     }
+    val EKGTimeData = EKGResults.map { result ->
+        calendar.time = Time(result.dateMs)
+        calendar.get(Calendar.MILLISECOND).toFloat()
+    }
+
+    val EKGValueData = EKG.map { result ->
+        result.arrayValue.toFloat()
+    }
+
+
+
     LazyColumn {
         item {
             Card {
@@ -42,9 +53,31 @@ fun ResultsView(
         }
         item {
             //TODO dodać ekran wyników badań krwi
+            Card{
+                Column{
+                    Text("Morfologia")
+                    Divider(modifier = Modifier.padding(4.dp))
+                    val htValue : Float
+                    val hbValue : Float
+                    val mcvValue : Float
+                    val mchcValue : Float
+
+                }
+            }
         }
         item {
             //TODO dodać ekran wyników badań ekg
+            Card{
+                Column{
+                    Text("Pomiar EKG")
+                    Divider(modifier = Modifier.padding(4.dp))
+                    ChartDisplay(
+                        xData = EKGTimeData,
+                        yData = EKGValueData
+                    )
+
+                }
+            }
         }
     }
 }
