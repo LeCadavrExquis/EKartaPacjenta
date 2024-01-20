@@ -31,7 +31,6 @@ object DummyData {
             measuredValue = 37.1,
             userId = user1.id
         ),
-        // TODO dodać poprawne czasy
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 130656789,

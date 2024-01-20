@@ -8,7 +8,7 @@ import java.util.UUID
 data class EKGMeasurement(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val dateMs: Long,
+    val timeMs: Long,
     val arrayValue: List<Double>,
     @Serializable(with = UUIDSerializer::class)
     val userId: UUID,
