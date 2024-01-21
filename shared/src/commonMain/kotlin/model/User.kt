@@ -9,6 +9,7 @@ data class User(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
     val login: String,
+    val password: String?,
     val name: String,
     val surname: String,
     val role: Role,

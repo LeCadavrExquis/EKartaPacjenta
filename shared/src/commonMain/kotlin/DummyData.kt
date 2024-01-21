@@ -7,13 +7,15 @@ object DummyData {
     val doctor1 = User(
         id = UUID.randomUUID(),
         login = "testDoctor",
+        password = "123",
         name = "Zbigniew",
         surname = "Religa",
-        role = Role.DOCTOR
+        role = Role.DOCTOR,
     )
     val user1 = User(
         id = UUID.randomUUID(),
         login = "testPatient",
+        password = "123",
         name = "Jan",
         surname = "Kowalski",
         role = Role.PATIENT
@@ -22,56 +24,56 @@ object DummyData {
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 123456789,
-            measuredValue = 36.6,
+            value = 36.6,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 127056789,
-            measuredValue = 37.1,
+            value = 37.1,
             userId = user1.id
         ),
         // TODO dodać poprawne czasy
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 130656789,
-            measuredValue = 36.8,
+            value = 36.8,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 134256789,
-            measuredValue = 39.2,
+            value = 39.2,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 137856789,
-            measuredValue = 39.5,
+            value = 39.5,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 141456789,
-            measuredValue = 39.8,
+            value = 39.8,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 145056789,
-            measuredValue = 39.7,
+            value = 39.7,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 148656789,
-            measuredValue = 37.5,
+            value = 37.5,
             userId = user1.id
         ),
         TemperatureMeasurement(
             id = UUID.randomUUID(),
             dateMs = 152256789,
-            measuredValue = 36.7,
+            value = 36.7,
             userId = user1.id
         ),
     )

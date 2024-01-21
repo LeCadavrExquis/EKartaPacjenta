@@ -1,21 +1,25 @@
 package pl.pw.ekartapacjenta
 
-import SERVER_PORT
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.server.plugins.contentnegotiation.*
+import kotlinx.serialization.json.*
+import io.ktor.serialization.kotlinx.json.*
+import pl.pw.ekartapacjenta.repository.DatabaseFactory
 
-fun main() {
-    embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
-}
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
-    routing {
-        get("/") {
-            call.respondText("Ekarta pacjenta")
-        }
+    DatabaseFactory.init()
+
+    configureAuthentication()
+    configureRouting()
+
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
     }
 }

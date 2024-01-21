@@ -9,7 +9,7 @@ data class EKGMeasurement(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
     val dateMs: Long,
-    val arrayValue: List<Double>,
+    val value: Double,
     @Serializable(with = UUIDSerializer::class)
     val userId: UUID,
 )

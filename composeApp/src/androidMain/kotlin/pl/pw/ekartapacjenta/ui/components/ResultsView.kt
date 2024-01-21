@@ -25,7 +25,7 @@ fun ResultsView(
         calendar.get(Calendar.HOUR_OF_DAY).toFloat()
     }
     val temperatureValueData = temperatureResults.map { result ->
-        result.measuredValue.toFloat()
+        result.value.toFloat()
     }
     val EKGTimeData = EKGResults.map { result ->
         calendar.time = Time(result.dateMs)

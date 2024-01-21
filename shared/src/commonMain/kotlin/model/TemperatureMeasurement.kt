@@ -9,7 +9,7 @@ data class TemperatureMeasurement(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
     val dateMs: Long,
-    val measuredValue: Double,
+    val value: Double,
     @Serializable(with = UUIDSerializer::class)
     val userId: UUID,
 )
