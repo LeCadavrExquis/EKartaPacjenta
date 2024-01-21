@@ -1,9 +1,8 @@
-import java.util.UUID
-import model.Role
 import model.MorfMeasurement
-import model.User
 import java.time.LocalTime
+import java.util.*
 import kotlin.random.Random
+
 //data class DummyDataMorf()
 
 //losowanie godziny
@@ -12,22 +11,6 @@ val randomHour = random.nextInt(24)
 val randomMinute = random.nextInt(60)
 
 object DummyDataMorf {
-    val doctor1 = User(
-        id = UUID.randomUUID(),
-        login = "testDoctor",
-        password = "123",
-        name = "Zbigniew",
-        surname = "Religa",
-        role = Role.DOCTOR
-    )
-    val user1 = User(
-        id = UUID.randomUUID(),
-        login = "testPacjent",
-        password = "123",
-        name = "Jan",
-        surname = "Kowalski",
-        role = Role.PATIENT
-    )
     val morfMeasurements1 = MorfMeasurement(
         id = UUID.randomUUID(),
         time = LocalTime.of(randomHour, randomMinute).toNanoOfDay(),
@@ -39,6 +22,6 @@ object DummyDataMorf {
         mcvUnit = "fL",
         mchcValue = 33.50,
         mchcUnit = "%",
-        userId = user1.id
+        userId = DummyData.user1.id
     )
 }

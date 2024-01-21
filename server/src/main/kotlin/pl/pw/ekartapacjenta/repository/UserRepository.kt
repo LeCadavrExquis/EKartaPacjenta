@@ -3,8 +3,7 @@ package pl.pw.ekartapacjenta.repository
 import model.Role
 import model.User
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import java.util.UUID
+import java.util.*
 
 interface DAOUser {
     suspend fun user(id: UUID): User?
@@ -20,6 +19,35 @@ class UserRepository : DAOUser {
         row[Users.role],
     )
     override suspend fun user(id: UUID): User? = DatabaseFactory.dbQuery {
+        Users
+            .select { Users.id eq id }
+            .map(::resultRowToUser)
+            .singleOrNull()
+    }
+    suspend fun isEmpty(): Boolean = DatabaseFactory.dbQuery {
+        Users
+            .selectAll()
+            .empty()
+    }
+    suspend fun insert(user: User) = DatabaseFactory.dbQuery {
+        Users.insert {
+            it[id] = user.id
+            it[login] = user.login
+            it[password] = user.password ?: ""
+            it[name] = user.name
+            it[surname] = user.surname
+            it[role] = user.role
+        }
+    }
+
+    suspend fun findByLogin(login: String): User? = DatabaseFactory.dbQuery {
+        Users
+            .select { Users.login eq login }
+            .map(::resultRowToUser)
+            .singleOrNull()
+    }
+
+    suspend fun findById(id: UUID): User? = DatabaseFactory.dbQuery {
         Users
             .select { Users.id eq id }
             .map(::resultRowToUser)

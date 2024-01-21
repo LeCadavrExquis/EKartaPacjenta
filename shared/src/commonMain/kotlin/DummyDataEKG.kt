@@ -1,6 +1,4 @@
 import model.EKGMeasurement
-import model.Role
-import model.User
 import java.util.*
 import kotlin.random.Random
 
@@ -25,29 +23,13 @@ fun toEKGMeasurement(
         UUID.randomUUID(),
         dateMs = timeMS,
         value = voltage,
-        DummyDataEKG.user1.id
+        DummyData.user1.id
     )
 }
 
 val numSamples = 500
 
 object DummyDataEKG {
-    val doctor1 = User(
-        id = UUID.randomUUID(),
-        login = "testDoctor",
-        password = "123",
-        name = "Zbigniew",
-        surname = "Religa",
-        role = Role.DOCTOR
-    )
-    val user1 = User(
-        id = UUID.randomUUID(),
-        login = "testPatient",
-        password = "123",
-        name = "Jan",
-        surname = "Kowalski",
-        role = Role.PATIENT
-    )
     val ekgMeasurement1 = generateEKGData(numSamples)
 }
 

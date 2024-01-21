@@ -1,13 +1,9 @@
 package pl.pw.ekartapacjenta.repository
 
-import UUIDSerializer
-import kotlinx.serialization.Serializable
 import model.EKGMeasurement
-import model.Role
-import model.User
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import java.util.*
 
@@ -27,6 +23,17 @@ class EKGMeasurementRepository : DAOEKGMeasurement {
             .select { EKGMeasurements.userId eq userId }
             .map(::resultRowToEKGMeasurement)
             .toList()
+    }
+
+    suspend fun insert(ekgMeasurements: List<EKGMeasurement>) = DatabaseFactory.dbQuery {
+        ekgMeasurements.forEach { ekgMeasurement ->
+            EKGMeasurements.insert {
+                it[id] = ekgMeasurement.id
+                it[dateMs] = ekgMeasurement.dateMs
+                it[value] = ekgMeasurement.value
+                it[userId] = ekgMeasurement.userId
+            }
+        }
     }
 }
 

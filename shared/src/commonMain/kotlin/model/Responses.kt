@@ -16,7 +16,7 @@ data class PatientDataResponse(
     val user: User,
     val temperatureMeasurements: List<TemperatureMeasurement>?,
     val morfMeasurements: MorfMeasurement?,
-    val ekgMeasurements: EKGMeasurement?
+    val ekgMeasurements: List<EKGMeasurement>?
 )
 
 @Serializable

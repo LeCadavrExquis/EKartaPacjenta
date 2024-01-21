@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
@@ -31,6 +30,9 @@ kotlin {
             implementation(libs.androidx.security.crypto)
             implementation(libs.accompanist.permissions)
             implementation(libs.mp.android.chart)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
         commonMain.dependencies {
             implementation(projects.shared)

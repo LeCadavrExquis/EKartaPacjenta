@@ -2,8 +2,8 @@ package pl.pw.ekartapacjenta.repository
 
 import model.TemperatureMeasurement
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import java.util.*
 
@@ -23,6 +23,17 @@ class TemperatureMeasurementRepository : DAOTemperatureMeasurement {
             .select { TemperatureMeasurements.userId eq userId }
             .map(::resultRowToTemperatureMeasurement)
             .toList()
+    }
+
+    suspend fun insert(tempMeasurements: List<TemperatureMeasurement>) = DatabaseFactory.dbQuery {
+        tempMeasurements.forEach { temperatureMeasurement ->
+            TemperatureMeasurements.insert {
+                it[id] = temperatureMeasurement.id
+                it[dateMs] = temperatureMeasurement.dateMs
+                it[value] = temperatureMeasurement.value
+                it[userId] = temperatureMeasurement.userId
+            }
+        }
     }
 }
 
