@@ -48,6 +48,10 @@ fun HomeView(
                 )
             }
         }
-        ResultsView(DummyData.temperatureMeasurements1)
+        ResultsView(
+            DummyData.temperatureMeasurements1,
+            DummyDataEKG.ekgMeasurement1,
+            DummyDataMorf.morfMeasurements1
+        )
     }
 }

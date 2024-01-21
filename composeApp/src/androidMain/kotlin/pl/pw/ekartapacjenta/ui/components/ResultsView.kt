@@ -2,6 +2,7 @@ package pl.pw.ekartapacjenta.ui.components
 
 import DummyData
 import DummyDataEKG
+import DummyDataMorf
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ekgDummyData
 import model.EKGMeasurement
 import model.MorfMeasurement
 import model.TemperatureMeasurement
@@ -40,7 +40,7 @@ import java.util.Date
 fun ResultsView(
     temperatureResults: List<TemperatureMeasurement>,
     EKGResults: List<EKGMeasurement>,
-    morfResults: List<MorfMeasurement>
+    morfResults: MorfMeasurement
 ) {
     val calendar = Calendar.getInstance()
     val temperatureTimeData = temperatureResults.map { result ->
@@ -50,90 +50,12 @@ fun ResultsView(
     val temperatureValueData = temperatureResults.map { result ->
         result.value.toFloat()
     }
-
-    class MainActivity : ComponentActivity(){
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContent {
-                EKGScreen(ekaData = ekgDummyData.ekgMeasurement1)
-            }
-        }
+    val EKGValueData = EKGResults.map { result ->
+        result.value.toFloat()
     }
-
-    @Composable
-    fun EKGChart(ekgData: List<DummyDataEKG>){
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(MaterialTheme.colorScheme.surface),
-            onDraw = {
-                drawLineChart(ekgData, this)
-            }
-        )
+    val EKGTimeData = EKGResults.map { result ->
+        (result.dateMs - EKGResults[0].dateMs).toFloat()
     }
-
-    @Composable
-    fun EKGScreen(ekgData: List<DummyDataEKG>) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {Text("Pomiar EKG")},
-                    backgroundColor = Color.Gray
-                )
-            },
-            content = {
-                Column (
-                    Divider(
-                        modifier = Modifier
-                          .fillMaxSize()
-                          .background(MaterialTheme.colorScheme.background)
-                          .padding(16.dp)
-                     ){
-                        EKGChart(ekgData = ekgData)
-                     }
-                )
-            }
-        )
-    }
-
-
-
-    @Composable
-    fun CanvaScope.drawLineChart(data: List<DummyDataEKG>, canvas: CanvasDrawScope){
-        val maxValue = data.maxOf {it.voltage}
-        val minValue = data.minOf {it.voltage}
-
-        val xStep = size.width / data.size.toFloat()
-        val yStep = size.height / (maxValue - minValue)
-
-        val path = Patch()
-
-        data.forEachIndexed { index, point ->
-            val x = intex * xStep
-            val y = yStep * (point.voltage - minValue)
-            if (index == 0){
-                path.moveTo(x, size.height - y)
-            }else {
-                path.lineTo(x, size.height - y)
-            }
-        }
-
-        canvas.drawPath(
-            path = path,
-            color = color.Red,
-            style = Stroke(width = 2f)
-        )
-
-        }
-    }
-
-
-    val htValueData = morfResults.map { it.htValue.toFloat() }
-    val hbValueData = morfResults.map { it.hbValue.toFloat() }
-    val mcvValueData = morfResults.map { it.mcvValue.toFloat() }
-    val mchcValueData = morfResults.map { it.mchcValue.toFloat() }
-
 
     LazyColumn {
         item {
@@ -149,7 +71,10 @@ fun ResultsView(
             }
         }
         item {
-            //TODO dodać ekran wyników badań krwi
+            val htValueData = morfResults.htValue
+            val hbValueData = morfResults.hbValue
+            val mcvValueData = morfResults.mcvValue
+            val mchcValueData = morfResults.mchcValue
             Card {
                 Column {
                     Text("Morfologia")
@@ -162,28 +87,147 @@ fun ResultsView(
             }
         }
         item {
-            //TODO dodać ekran wyników badań ekg
-            Card {
-                Column {
+            Card{
+                Column{
                     Text("Pomiar EKG")
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                            .padding(16.dp)
+                    Divider(modifier = Modifier.padding(4.dp))
+                    ChartDisplay(
+                        xData = EKGTimeData,
+                        yData = EKGValueData
                     )
 
                 }
             }
-
         }
     }
 }
-
+//
+//    @Composable
+//    fun EKGChart(ekgData: List<DummyDataEKG>){
+//        Canvas(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(200.dp)
+//                .background(MaterialTheme.colorScheme.surface),
+//            onDraw = {
+//                drawLineChart(ekgData, this)
+//            }
+//        )
+//    }
+//
+//    @Composable
+//    fun EKGScreen(ekgData: List<EKGDummyData>) {
+//        Scaffold(
+//            topBar = {
+//                TopAppBar(
+//                    title = {Text("Pomiar EKG")},
+//                    backgroundColor = Color.Gray
+//                )
+//            },
+//            content = {
+//                Column (
+//                    Divider(
+//                        modifier = Modifier
+//                          .fillMaxSize()
+//                          .background(MaterialTheme.colorScheme.background)
+//                          .padding(16.dp)
+//                     ){
+//                        EKGChart(ekgData = ekgData)
+//                     }
+//                )
+//            }
+//        )
+//    }
+//
+//
+//
+//    @Composable
+//    fun CanvaScope.drawLineChart(data: List<DummyDataEKG>, canvas: CanvasDrawScope){
+//        val maxValue = data.maxOf {it.voltage}
+//        val minValue = data.minOf {it.voltage}
+//
+//        val xStep = size.width / data.size.toFloat()
+//        val yStep = size.height / (maxValue - minValue)
+//
+//        val path = Patch()
+//
+//        data.forEachIndexed { index, point ->
+//            val x = intex * xStep
+//            val y = yStep * (point.voltage - minValue)
+//            if (index == 0){
+//                path.moveTo(x, size.height - y)
+//            }else {
+//                path.lineTo(x, size.height - y)
+//            }
+//        }
+//
+//        canvas.drawPath(
+//            path = path,
+//            color = color.Red,
+//            style = Stroke(width = 2f)
+//        )
+//
+//        }
+//    }
+//
+//
+//    val htValueData = morfResults.map { it.htValue.toFloat() }
+//    val hbValueData = morfResults.map { it.hbValue.toFloat() }
+//    val mcvValueData = morfResults.map { it.mcvValue.toFloat() }
+//    val mchcValueData = morfResults.map { it.mchcValue.toFloat() }
+//
+//
+//    LazyColumn {
+//        item {
+//            Card {
+//                Column {
+//                    Text("Pomiar temperatury")
+//                    Divider(modifier = Modifier.padding(4.dp))
+//                    ChartDisplay(
+//                        yData = temperatureTimeData,
+//                        xData = temperatureValueData
+//                    )
+//                }
+//            }
+//        }
+//        item {
+//            //TODO dodać ekran wyników badań krwi
+//            Card {
+//                Column {
+//                    Text("Morfologia")
+//                    Divider(modifier = Modifier.padding(4.dp))
+//                    Text("Ht: $htValueData")
+//                    Text("Hb: $hbValueData")
+//                    Text("MCV: $mcvValueData")
+//                    Text("MCHC: $mchcValueData")
+//                }
+//            }
+//        }
+//        item {
+//            //TODO dodać ekran wyników badań ekg
+//            Card {
+//                Column {
+//                    Text("Pomiar EKG")
+//                    Divider(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .background(MaterialTheme.colorScheme.background)
+//                            .padding(16.dp)
+//                    )
+//
+//                }
+//            }
+//
+//        }
+//    }
+//}
+//
 @Preview
 @Composable
 fun ResultsViewPreview() {
     ResultsView(
-        temperatureResults = DummyData.temperatureMeasurements1
+        temperatureResults = DummyData.temperatureMeasurements1,
+        EKGResults = DummyDataEKG.ekgMeasurement1,
+        morfResults = DummyDataMorf.morfMeasurements1
     )
 }

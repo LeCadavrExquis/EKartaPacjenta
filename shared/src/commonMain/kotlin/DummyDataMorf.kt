@@ -1,4 +1,3 @@
-import java.util*
 import java.util.UUID
 import model.Role
 import model.MorfMeasurement
@@ -16,6 +15,7 @@ object DummyDataMorf {
     val doctor1 = User(
         id = UUID.randomUUID(),
         login = "testDoctor",
+        password = "123",
         name = "Zbigniew",
         surname = "Religa",
         role = Role.DOCTOR
@@ -23,23 +23,22 @@ object DummyDataMorf {
     val user1 = User(
         id = UUID.randomUUID(),
         login = "testPacjent",
+        password = "123",
         name = "Jan",
         surname = "Kowalski",
         role = Role.PATIENT
     )
-    val morfMeasurements1 = listOf(
-        MorfMeasurement(
-            id = UUID.randomUUID(),
-            time = LocalTime.of(randomHour, randomMinute).toNanoOfDay(),
-            htValue = 41.34,
-            htUnit = "%",
-            hbValue = 15.67,
-            hbUnit = "g/dL",
-            mcvValue = 82.00,
-            mcvUnit = "fL",
-            mchcValue = 33.50,
-            mchcUnit = "%",
-            userId = user1.id
-        ),
+    val morfMeasurements1 = MorfMeasurement(
+        id = UUID.randomUUID(),
+        time = LocalTime.of(randomHour, randomMinute).toNanoOfDay(),
+        htValue = 41.34,
+        htUnit = "%",
+        hbValue = 15.67,
+        hbUnit = "g/dL",
+        mcvValue = 82.00,
+        mcvUnit = "fL",
+        mchcValue = 33.50,
+        mchcUnit = "%",
+        userId = user1.id
     )
 }

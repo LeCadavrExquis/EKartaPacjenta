@@ -1,28 +1,41 @@
+import model.EKGMeasurement
 import model.Role
 import model.User
 import java.util.*
 import kotlin.random.Random
-data class DummyDataEKG (val timeMS: Long, val voltage: Double)
 
-fun generateEKGData(numSamples : Int): List<DummyDataEKG> {
+fun generateEKGData(numSamples : Int): List<EKGMeasurement> {
     val random = Random(System.currentTimeMillis())
-    val EKGDataList = mutableListOf<DummyDataEKG>()
+    val EKGDataList = mutableListOf<EKGMeasurement>()
 
     for(i in 0 until numSamples){
         val timeMs = i * 10L //zakładamy, że 1 próbka będzie trwać 10 ms
         val voltage = random.nextDouble(-1.0, 1.0)  //zakres napięć
-        val ekgData = DummyDataEKG(timeMs, voltage)
+        val ekgData = toEKGMeasurement(timeMs, voltage)
         EKGDataList.add(ekgData)
     }
-    return EKGDataList
+    return EKGDataList.toList()
+}
+
+fun toEKGMeasurement(
+    timeMS: Long,
+    voltage: Double
+) : EKGMeasurement {
+    return EKGMeasurement(
+        UUID.randomUUID(),
+        dateMs = timeMS,
+        value = voltage,
+        DummyDataEKG.user1.id
+    )
 }
 
 val numSamples = 500
 
-object ekgDummyData {
+object DummyDataEKG {
     val doctor1 = User(
         id = UUID.randomUUID(),
         login = "testDoctor",
+        password = "123",
         name = "Zbigniew",
         surname = "Religa",
         role = Role.DOCTOR
@@ -30,6 +43,7 @@ object ekgDummyData {
     val user1 = User(
         id = UUID.randomUUID(),
         login = "testPatient",
+        password = "123",
         name = "Jan",
         surname = "Kowalski",
         role = Role.PATIENT
