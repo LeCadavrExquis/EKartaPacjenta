@@ -72,17 +72,21 @@ fun ResultsView(
         }
         item {
             val htValueData = morfResults.htValue
+            val htUnitData = morfResults.htUnit
             val hbValueData = morfResults.hbValue
+            val hbUnitData = morfResults.hbUnit
             val mcvValueData = morfResults.mcvValue
+            val mcvUnitData = morfResults.mcvUnit
             val mchcValueData = morfResults.mchcValue
+            val mchcUnitData = morfResults.mchcUnit
             Card {
                 Column {
                     Text("Morfologia")
                     Divider(modifier = Modifier.padding(4.dp))
-                    Text("Ht: $htValueData")
-                    Text("Hb: $hbValueData")
-                    Text("MCV: $mcvValueData")
-                    Text("MCHC: $mchcValueData")
+                    Text("Ht: $htValueData $htUnitData")
+                    Text("Hb: $hbValueData $hbUnitData")
+                    Text("MCV: $mcvValueData $mcvUnitData")
+                    Text("MCHC: $mchcValueData $mchcUnitData")
                 }
             }
         }
