@@ -38,6 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val response = networkManager.validateLogin(login, password)
                 id = response.id
                 token = response.token
+                sharedPreferences.saveUserId(id.toString())
                 sharedPreferences.saveJWToken(token)
                 networkManager.updateToken(token)
 
@@ -50,6 +51,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             } catch (e: Exception) {
                 _error.update { true }
+            }
+        }
+    }
+
+    fun initUserView() {
+        val token = sharedPreferences.getJWToken()
+        val userId = sharedPreferences.getUserId()
+        if (token != null) {
+            this.viewModelScope.launch {
+                try {
+                    val studyResults = networkManager.getPatientData(userId!!)
+
+                    _user.update { old -> studyResults.user }
+                    _temperatureResults.update { old -> studyResults.temperatureMeasurements ?: old }
+                    _ekgResults.update { old -> studyResults.ekgMeasurements ?: old }
+                    _morfResults.update { old -> studyResults.morfMeasurements ?: old }
+
+                } catch (e: Exception) {
+                    // ignore
+                }
             }
         }
     }

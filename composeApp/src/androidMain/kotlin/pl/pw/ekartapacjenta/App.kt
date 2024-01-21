@@ -2,6 +2,7 @@ package pl.pw.ekartapacjenta
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -14,6 +15,9 @@ import pl.pw.ekartapacjenta.ui.LoginView
 fun App(mainViewModel: MainViewModel = viewModel()) {
     val user by mainViewModel.user.collectAsState()
     val error by mainViewModel.error.collectAsState()
+    LaunchedEffect(Unit) {
+        mainViewModel.initUserView()
+    }
     MaterialTheme {
         if (user != null) {
             if (user!!.role == Role.DOCTOR) {

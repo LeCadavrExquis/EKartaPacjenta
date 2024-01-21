@@ -24,4 +24,13 @@ class EncryptedSharedPref(context: Context) {
     fun getJWToken(): String? {
         return sharedPreferences.getString("token", null)
     }
+
+    fun saveUserId(id: String) = with(sharedPreferences.edit()) {
+        putString("id", id)
+        apply()
+    }
+
+    fun getUserId(): String? {
+        return sharedPreferences.getString("id", null)
+    }
 }
