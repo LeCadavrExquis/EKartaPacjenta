@@ -6,6 +6,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import model.Bed
 import model.Credentials
 import model.PatientDataResponse
 import model.ValidateResponse
@@ -18,9 +19,11 @@ class NetworkManager(
             json()
         }
     }
+
+    val DOMAIN = "http://192.168.1.33:8080"
     suspend fun validateLogin(login: String, password: String): ValidateResponse {
 
-        val response = client.post("http://192.168.1.33:8080/login") {
+        val response = client.post("$DOMAIN/login") {
             contentType(ContentType.Application.Json)
             setBody(
                 Credentials(
@@ -38,12 +41,22 @@ class NetworkManager(
     }
 
     suspend fun getPatientData(id: String): PatientDataResponse {
-        val response = client.get("http://192.168.1.33:8080/patient/$id/info") {
+        val response = client.get("$DOMAIN/patient/$id/info") {
             headers {
                 append(HttpHeaders.Authorization, "Bearer $token")
             }
         }
         return response.body<PatientDataResponse>()
+    }
+
+    suspend fun getBedFromId(id: String): Bed {
+        val response = client.get("$DOMAIN/bed/$id") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $token")
+            }
+        }
+
+        return response.body<Bed>()
     }
 
     fun updateToken(token: String?) {

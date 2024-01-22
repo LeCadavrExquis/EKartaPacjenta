@@ -23,7 +23,7 @@ fun Application.configureAuthentication() {
                 .withIssuer(issuer)
                 .build())
             validate { credential ->
-                if (credential.payload.getClaim("username").asString() != "") {
+                if (credential.payload.getClaim("id").asString() != "") {
                     JWTPrincipal(credential.payload)
                 } else {
                     null
@@ -44,7 +44,7 @@ fun Application.generateToken(user: User): String {
         .withAudience(audience)
         .withIssuer(issuer)
         .withClaim("id", user.id.toString())
-        .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+        .withExpiresAt(Date(System.currentTimeMillis() + 5 * 60 * 1000))
         .sign(Algorithm.HMAC256(secret))
 
     return token

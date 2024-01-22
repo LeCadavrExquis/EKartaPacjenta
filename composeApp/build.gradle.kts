@@ -1,4 +1,6 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.backend.common.lower.Closure
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -30,6 +32,10 @@ kotlin {
             implementation(libs.androidx.security.crypto)
             implementation(libs.accompanist.permissions)
             implementation(libs.mp.android.chart)
+            implementation("me.dm7.barcodescanner:zxing:1.9.8") {
+                //noinspection GradleCompatible
+                exclude("com.android.support", "support-v4")
+            }
             implementation(libs.ktor.client.okhttp)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -84,4 +90,3 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
-

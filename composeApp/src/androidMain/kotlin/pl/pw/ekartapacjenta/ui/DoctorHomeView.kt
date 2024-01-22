@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import me.dm7.barcodescanner.zxing.ZXingScannerView
 import model.User
 import pl.pw.ekartapacjenta.ui.components.CameraPreview
 import pl.pw.ekartapacjenta.ui.components.Header
@@ -17,7 +18,8 @@ import pl.pw.ekartapacjenta.ui.components.ScanButton
 @Composable
 fun DoctorHomeView(
     user: User,
-    onScanImage: (Image) -> Unit,
+    onScan: (String) -> Unit,
+    scannerView: ZXingScannerView,
 ) {
     var showScanView by remember { mutableStateOf(false) }
     var tmpUser by remember { mutableStateOf<User?>(null) }
@@ -59,8 +61,10 @@ fun DoctorHomeView(
                 }
             } else {
                 CameraPreview(
-                    modifier = Modifier.size(300.dp),
-                    onImage = onScanImage,
+                    scannerView = scannerView,
+                    onScan = {
+                        onScan(it)
+                    }
                 )
             }
             ScanButton(
@@ -69,8 +73,7 @@ fun DoctorHomeView(
                     .padding(32.dp),
                 showScanView = showScanView,
                 onClick = {
-                    //showScanView = !showScanView
-                    tmpUser = DummyData.user1
+                    showScanView = !showScanView
                 }
             )
         }

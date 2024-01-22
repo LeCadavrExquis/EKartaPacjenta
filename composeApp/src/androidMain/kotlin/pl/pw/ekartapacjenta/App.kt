@@ -6,13 +6,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import me.dm7.barcodescanner.zxing.ZXingScannerView
 import model.Role
 import pl.pw.ekartapacjenta.ui.DoctorHomeView
 import pl.pw.ekartapacjenta.ui.HomeView
 import pl.pw.ekartapacjenta.ui.LoginView
 
 @Composable
-fun App(mainViewModel: MainViewModel = viewModel()) {
+fun App(
+    scannerView: ZXingScannerView,
+    mainViewModel: MainViewModel = viewModel()
+) {
     val user by mainViewModel.user.collectAsState()
     val error by mainViewModel.error.collectAsState()
     LaunchedEffect(Unit) {
@@ -23,7 +27,8 @@ fun App(mainViewModel: MainViewModel = viewModel()) {
             if (user!!.role == Role.DOCTOR) {
                 DoctorHomeView(
                     user!!,
-                    mainViewModel::onScanImage
+                    mainViewModel::onBedScan,
+                    scannerView
                 )
             } else {
                 HomeView(user = user!!)

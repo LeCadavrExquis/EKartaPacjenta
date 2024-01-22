@@ -11,17 +11,16 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.launch
+import model.Bed
 import model.Credentials
 import model.PatientDataResponse
 import model.Role
-import pl.pw.ekartapacjenta.repository.EKGMeasurementRepository
-import pl.pw.ekartapacjenta.repository.MorfMeasurementRepository
-import pl.pw.ekartapacjenta.repository.TemperatureMeasurementRepository
-import pl.pw.ekartapacjenta.repository.UserRepository
+import pl.pw.ekartapacjenta.repository.*
 import java.util.*
 
 fun Application.configureRouting() {
     val userRepo = UserRepository()
+    val bedRepository = BedRepository()
     val ekgRepo = EKGMeasurementRepository()
     val morfRepo = MorfMeasurementRepository()
     val tempRepo = TemperatureMeasurementRepository()
@@ -30,6 +29,7 @@ fun Application.configureRouting() {
         if (userRepo.isEmpty()) {
             userRepo.insert(DummyData.user1)
             userRepo.insert(DummyData.doctor1)
+            bedRepository.insert(DummyData.bed1)
 
             ekgRepo.insert(DummyDataEKG.ekgMeasurement1)
             tempRepo.insert(DummyData.temperatureMeasurements1)
@@ -68,6 +68,12 @@ fun Application.configureRouting() {
                         ekgMeasurements
                     )
                 )
+            }
+            get("/bed/{id}") {
+                val bedId = call.parameters["id"]
+                val bed = bedRepository.bed(bedId!!.toInt())
+
+                call.respond(bed!!)
             }
         }
         get("/") {

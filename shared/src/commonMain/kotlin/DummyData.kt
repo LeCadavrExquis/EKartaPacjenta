@@ -5,7 +5,7 @@ import java.util.*
 
 object DummyData {
     val doctor1 = User(
-        id = UUID.randomUUID(),
+        id = UUID.fromString("3df518b3-1708-45f0-983d-b3d32a168498"),
         login = "testDoctor",
         password = "123",
         name = "Zbigniew",
@@ -13,12 +13,17 @@ object DummyData {
         role = Role.DOCTOR,
     )
     val user1 = User(
-        id = UUID.randomUUID(),
+        id = UUID.fromString("f821acea-879d-4de7-af35-8f87f75c640c"),
         login = "testPatient",
         password = "123",
         name = "Jan",
         surname = "Kowalski",
         role = Role.PATIENT
+    )
+    val bed1 = model.Bed(
+        id = 12344321,
+        userId = user1.id,
+        doctorId = doctor1.id
     )
     val temperatureMeasurements1 = listOf(
         TemperatureMeasurement(

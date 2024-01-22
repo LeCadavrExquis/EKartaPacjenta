@@ -14,6 +14,7 @@ object DatabaseFactory {
         transaction(database) {
             SchemaUtils.create(
                 Users,
+                Beds,
                 TemperatureMeasurements,
                 EKGMeasurements,
                 MorfMeasurements

@@ -16,7 +16,7 @@ class EncryptedSharedPref(context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun saveJWToken(token: String) = with(sharedPreferences.edit()) {
+    fun saveJWToken(token: String?) = with(sharedPreferences.edit()) {
         putString("token", token)
         apply()
     }
@@ -25,7 +25,7 @@ class EncryptedSharedPref(context: Context) {
         return sharedPreferences.getString("token", null)
     }
 
-    fun saveUserId(id: String) = with(sharedPreferences.edit()) {
+    fun saveUserId(id: String?) = with(sharedPreferences.edit()) {
         putString("id", id)
         apply()
     }
