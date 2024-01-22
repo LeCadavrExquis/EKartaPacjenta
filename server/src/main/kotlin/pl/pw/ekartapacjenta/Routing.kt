@@ -47,7 +47,7 @@ fun Application.configureRouting() {
 
                 if (user.id.toString() != patientId &&
                     user.role != Role.DOCTOR) {
-                    call.respond(HttpStatusCode.Unauthorized, "Autentykacja nie powiodła się")
+                    call.respond(HttpStatusCode.Unauthorized, "Odmowa dostępu")
                     return@get
                 }
 
@@ -71,6 +71,15 @@ fun Application.configureRouting() {
             }
             get("/bed/{id}") {
                 val bedId = call.parameters["id"]
+                val principal = call.principal<JWTPrincipal>()
+                val principalId = principal!!.payload.getClaim("id").asString()
+                val user = userRepo.findById(UUID.fromString(principalId))!!
+
+                if (user.role != Role.DOCTOR) {
+                    call.respond(HttpStatusCode.Unauthorized, "Odmowa dostępu")
+                    return@get
+                }
+
                 val bed = bedRepository.bed(bedId!!.toInt())
 
                 call.respond(bed!!)
@@ -85,7 +94,7 @@ fun Application.configureRouting() {
             val user = userRepo.findByLogin(credentials.username)
 
             if (user == null || user.password != credentials.password) {
-                call.respond(HttpStatusCode.Unauthorized, "Autentykacja nie powiodła się")
+                call.respond(HttpStatusCode.Unauthorized, "Odmowa dostępu")
                 return@post
             }
 

@@ -14,6 +14,8 @@ import com.github.mikephil.charting.charts.ScatterChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.CombinedData
 import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.data.ScatterData
 import com.github.mikephil.charting.data.ScatterDataSet
 
@@ -44,13 +46,20 @@ fun ChartDisplay(
                 DrawOrder.LINE, DrawOrder.SCATTER
             )
 
+            val lineData = LineData(
+                LineDataSet(line1, line1Label).apply {
+                    color = Color.rgb(200, 4, 0)
+                    setDrawCircles(false)
+                },
+            )
             val pointsData = ScatterData(
-                ScatterDataSet(line1, line1Label).apply {
+                ScatterDataSet(line1, null).apply {
                     color = Color.rgb(200, 4, 0)
                     setScatterShape(ScatterChart.ScatterShape.SQUARE)
                 }
             )
             val data = CombinedData()
+            data.setData(lineData)
             data.setData(pointsData)
 
             chart.data = data

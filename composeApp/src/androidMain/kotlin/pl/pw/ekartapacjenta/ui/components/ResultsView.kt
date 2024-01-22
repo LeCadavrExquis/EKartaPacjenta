@@ -4,6 +4,7 @@ import DummyData
 import DummyDataEKG
 import DummyDataMorf
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import model.EKGMeasurement
 import model.MorfMeasurement
 import model.TemperatureMeasurement
@@ -24,35 +26,11 @@ fun ResultsView(
     EKGResults: List<EKGMeasurement>,
     morfResults: MorfMeasurement
 ) {
-    val calendar = Calendar.getInstance()
-    val temperatureTimeData = temperatureResults.map { result ->
-        calendar.time = Date(result.dateMs)
-        calendar.get(Calendar.HOUR_OF_DAY).toFloat()
-    }
-    val temperatureValueData = temperatureResults.map { result ->
-        result.value.toFloat()
-    }
-    val EKGValueData = EKGResults.map { result ->
-        result.value.toFloat()
-    }
-    val EKGTimeData = EKGResults.map { result ->
-        (result.dateMs - EKGResults[0].dateMs).toFloat()
-    }
-
-    LazyColumn {
-        item {
-            Card {
-                Column {
-                    Text("Pomiar temperatury")
-                    Divider(modifier = Modifier.padding(4.dp))
-                    ChartDisplay(
-                        yData = temperatureTimeData,
-                        xData = temperatureValueData
-                    )
-                }
-            }
-        }
-        item {
+    Column(
+        modifier = Modifier.padding(4.dp),
+    ) {
+        Text(text = "Wyniki badań", fontSize = 20.sp)
+        Row(modifier = Modifier.padding(4.dp)) {
             val htValueData = morfResults.htValue
             val htUnitData = morfResults.htUnit
             val hbValueData = morfResults.hbValue
@@ -62,7 +40,7 @@ fun ResultsView(
             val mchcValueData = morfResults.mchcValue
             val mchcUnitData = morfResults.mchcUnit
             Card {
-                Column {
+                Column(modifier = Modifier.padding(8.dp)) {
                     Text("Morfologia")
                     Divider(modifier = Modifier.padding(4.dp))
                     Text("Ht: $htValueData $htUnitData")
@@ -72,14 +50,40 @@ fun ResultsView(
                 }
             }
         }
-        item {
-            Card{
-                Column{
+        Row(modifier = Modifier.padding(4.dp)) {
+            val calendar = Calendar.getInstance()
+            val temperatureTimeData = temperatureResults.map { result ->
+                calendar.time = Date(result.dateMs)
+                calendar.get(Calendar.HOUR_OF_DAY).toFloat()
+            }
+            val temperatureValueData = temperatureResults.map { result ->
+                result.value.toFloat()
+            }
+            Card {
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text("Pomiar temperatury")
+                    Divider(modifier = Modifier.padding(4.dp))
+                    ChartDisplay(
+                        yData = temperatureTimeData,
+                        xData = temperatureValueData
+                    )
+                }
+            }
+        }
+        Row(modifier = Modifier.padding(4.dp)) {
+            val EKGValueData = EKGResults.map { result ->
+                result.value.toFloat()
+            }
+            val EKGTimeData = EKGResults.map { result ->
+                (result.dateMs - EKGResults[0].dateMs).toFloat()
+            }
+            Card {
+                Column(modifier = Modifier.padding(8.dp)) {
                     Text("Pomiar EKG")
                     Divider(modifier = Modifier.padding(4.dp))
                     ChartDisplay(
-                        xData = EKGTimeData,
-                        yData = EKGValueData
+                        xData = EKGValueData,
+                        yData = EKGTimeData
                     )
 
                 }
@@ -87,127 +91,7 @@ fun ResultsView(
         }
     }
 }
-//
-//    @Composable
-//    fun EKGChart(ekgData: List<DummyDataEKG>){
-//        Canvas(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(200.dp)
-//                .background(MaterialTheme.colorScheme.surface),
-//            onDraw = {
-//                drawLineChart(ekgData, this)
-//            }
-//        )
-//    }
-//
-//    @Composable
-//    fun EKGScreen(ekgData: List<EKGDummyData>) {
-//        Scaffold(
-//            topBar = {
-//                TopAppBar(
-//                    title = {Text("Pomiar EKG")},
-//                    backgroundColor = Color.Gray
-//                )
-//            },
-//            content = {
-//                Column (
-//                    Divider(
-//                        modifier = Modifier
-//                          .fillMaxSize()
-//                          .background(MaterialTheme.colorScheme.background)
-//                          .padding(16.dp)
-//                     ){
-//                        EKGChart(ekgData = ekgData)
-//                     }
-//                )
-//            }
-//        )
-//    }
-//
-//
-//
-//    @Composable
-//    fun CanvaScope.drawLineChart(data: List<DummyDataEKG>, canvas: CanvasDrawScope){
-//        val maxValue = data.maxOf {it.voltage}
-//        val minValue = data.minOf {it.voltage}
-//
-//        val xStep = size.width / data.size.toFloat()
-//        val yStep = size.height / (maxValue - minValue)
-//
-//        val path = Patch()
-//
-//        data.forEachIndexed { index, point ->
-//            val x = intex * xStep
-//            val y = yStep * (point.voltage - minValue)
-//            if (index == 0){
-//                path.moveTo(x, size.height - y)
-//            }else {
-//                path.lineTo(x, size.height - y)
-//            }
-//        }
-//
-//        canvas.drawPath(
-//            path = path,
-//            color = color.Red,
-//            style = Stroke(width = 2f)
-//        )
-//
-//        }
-//    }
-//
-//
-//    val htValueData = morfResults.map { it.htValue.toFloat() }
-//    val hbValueData = morfResults.map { it.hbValue.toFloat() }
-//    val mcvValueData = morfResults.map { it.mcvValue.toFloat() }
-//    val mchcValueData = morfResults.map { it.mchcValue.toFloat() }
-//
-//
-//    LazyColumn {
-//        item {
-//            Card {
-//                Column {
-//                    Text("Pomiar temperatury")
-//                    Divider(modifier = Modifier.padding(4.dp))
-//                    ChartDisplay(
-//                        yData = temperatureTimeData,
-//                        xData = temperatureValueData
-//                    )
-//                }
-//            }
-//        }
-//        item {
-//            //TODO dodać ekran wyników badań krwi
-//            Card {
-//                Column {
-//                    Text("Morfologia")
-//                    Divider(modifier = Modifier.padding(4.dp))
-//                    Text("Ht: $htValueData")
-//                    Text("Hb: $hbValueData")
-//                    Text("MCV: $mcvValueData")
-//                    Text("MCHC: $mchcValueData")
-//                }
-//            }
-//        }
-//        item {
-//            //TODO dodać ekran wyników badań ekg
-//            Card {
-//                Column {
-//                    Text("Pomiar EKG")
-//                    Divider(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .background(MaterialTheme.colorScheme.background)
-//                            .padding(16.dp)
-//                    )
-//
-//                }
-//            }
-//
-//        }
-//    }
-//}
-//
+
 @Preview
 @Composable
 fun ResultsViewPreview() {

@@ -27,7 +27,7 @@ fun toEKGMeasurement(
     )
 }
 
-val numSamples = 500
+val numSamples = 100
 
 object DummyDataEKG {
     val ekgMeasurement1 = generateEKGData(numSamples)

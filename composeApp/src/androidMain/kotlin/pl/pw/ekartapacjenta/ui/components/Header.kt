@@ -23,16 +23,12 @@ fun Header(
     ) {
         Text(
             fontSize = 36.sp,
-            text = "E-Karta"
+            text = "E-Karta " + if (role == Role.DOCTOR) "Lekarza" else "Pacjenta"
         )
         Icon(
             modifier = Modifier.scale(0.8f),
             painter = painterResource(id = R.drawable.logo_icon),
             contentDescription = null
-        )
-        Text(
-            fontSize = 36.sp,
-            text = if (role == Role.DOCTOR) "Lekarza" else "Pacjenta"
         )
     }
 }

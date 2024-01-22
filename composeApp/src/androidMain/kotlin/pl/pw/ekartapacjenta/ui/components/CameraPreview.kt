@@ -9,10 +9,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -30,19 +32,17 @@ import kotlin.coroutines.suspendCoroutine
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraPreview(
-    modifier: Modifier = Modifier,
     scannerView: ZXingScannerView,
     onScan: (code: String) -> Unit
 ) {
     DisposableEffect(Unit) {
-        // To run onDispose when the AndroidView composable is removed from the hierarchy
         onDispose {
             scannerView.stopCamera()
         }
     }
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
-    LaunchedEffect(cameraPermissionState) {
+    LaunchedEffect(cameraPermissionState.status.isGranted) {
         if (cameraPermissionState.status.isGranted) {
             scannerView.startCamera()
         } else {
@@ -52,34 +52,23 @@ fun CameraPreview(
 
     BoxWithConstraints(modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp)
     ) {
-        AndroidView(
-            factory = { context ->
-                scannerView.apply {
-                    this.layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
-                    this.setResultHandler { rawResult: Result ->
-                        // Do something with the result here
-                        Log.v("SOME", rawResult.text) // Prints scan results
-                        Log.v("SOME", rawResult.barcodeFormat.name) // Prints the scan format (qrcode, pdf417 etc.)
-                        onScan(rawResult.text)
+        if (cameraPermissionState.status.isGranted) {
+            AndroidView(
+                factory = { context ->
+                    scannerView.apply {
+                        this.layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                        this.setResultHandler { rawResult: Result ->
+                            onScan(rawResult.text)
+                        }
                     }
                 }
-            }
-        )
+            )
+        } else {
+            Text("Udziel dostępu do kamery")
+        }
     }
 }
-
-suspend fun Context.getCameraProvider(): ProcessCameraProvider = suspendCoroutine { continuation ->
-    ProcessCameraProvider.getInstance(this).also { future ->
-        future.addListener({
-            continuation.resume(future.get())
-        }, executor)
-    }
-}
-
-val Context.executor: Executor
-    get() = ContextCompat.getMainExecutor(this)
