@@ -91,7 +91,11 @@ class MainViewModel(
                 val messages: List<NdefMessage> = rawMessages.map { it as NdefMessage }
                 val payload = messages[0].records[0].payload
 
-                val nfcDataString = payload.toMutableList().toByteArray().toString(Charsets.UTF_8).drop(3)
+                val nfcDataString = payload
+                    .toMutableList()
+                    .toByteArray()
+                    .toString(Charsets.UTF_8)
+                    .drop(3)
 
                 onBedScan(nfcDataString)
             }

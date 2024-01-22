@@ -1,7 +1,19 @@
-This is a Kotlin Multiplatform project targeting Android, Server.
+# EKartaPacjenta
+Realizacja e-kart gorączkowych dla odziału szpitalnego z czytaniem kodów kreskowych i znaczników NFC w celu identyfikacji pacjentów.
 
-* `/server` is for the Ktor server application.
+## Moduły
+* `/server` zawiera serwer obsługujacy aplikację mobilną
 
-* `/shared` is for the code that will be shared between all targets in the project.
+* `/shared` kod współdzielony pomiędzy serwerem a aplikacją mobilną
 
-* `/composeApp` if for the Android mobile application
+* `/composeApp` aplikacja mobilna
+
+## Uruchomienie
+Projekt jest budowany za pomocą narzędzia gradle. 
+W celu testowania aplikacji w sieci lokalnej należy ustawić stałą **DOMAIN** w pliku 
+*composeApp/src/androidMain/kotlin/pl/pw/ekartapacjenta/logic/NetworkManager.kt* 
+na odpowiadającej domenie lub adresie serwera. 
+Aplikację mobilną zbudować używając skryptu gradlew, 
+wykonując następującą komendę: *./gradlew composeApp:build*. 
+Zbudowana aplikacja będzie w folderze bulld/output. 
+Serwer można uruchomić za pomocą komendy *./gradlew serwer:run*.
