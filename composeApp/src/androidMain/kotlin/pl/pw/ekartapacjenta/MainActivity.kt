@@ -65,8 +65,4 @@ class MainActivity : ComponentActivity() {
         viewModel.handleNfcIntent(intent)
     }
 
-    private fun displayMessage(message: String) {
-        Log.d("NFC", "NFC Tag Content: $message")
-        Toast.makeText(this, "NFC Tag Content: $message", Toast.LENGTH_SHORT).show()
-    }
 }
